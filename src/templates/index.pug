@@ -1,0 +1,13 @@
+extends layout
+
+block header
+    b Daedalus
+    |  API Documentation
+    .subtext Index
+
+block main
+    .row
+        .col.s12
+            ul.browser-default
+                for name, route in versions
+                    li: p: a(href=`/docs/${route}`)!= name

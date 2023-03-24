@@ -1,0 +1,266 @@
+@import url("https://fonts.googleapis.com/css2?family=Anek+Latin:wght@200;300;500&display=swap");
+
+:root {
+    font-family: "Anek Latin", sans-serif;
+
+    --dark: #37393f;
+    --darker: #303136;
+    --darkest: #212225;
+
+    --date-picker-background: var(--darker);
+    --date-picker-foreground: white;
+}
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+html.overflow,
+body.overflow {
+    overflow-x: unset;
+}
+
+html {
+    position: relative;
+    min-height: 100vh;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    font-weight: 300;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+p {
+    font-size: 120%;
+}
+
+.subtext {
+    font-size: 50%;
+    font-weight: lighter;
+}
+
+.light {
+    opacity: 50%;
+}
+
+.dark {
+    background-color: var(--dark) !important;
+}
+
+.darker {
+    background-color: var(--darker) !important;
+}
+
+.darkest {
+    background-color: var(--darkest) !important;
+}
+
+.big {
+    font-size: 150%;
+    font-weight: bolder;
+    padding-top: 2vh;
+}
+
+.top-block {
+    padding-top: 8vh;
+    padding-bottom: 8vh;
+    margin-bottom: 2vh;
+    font-size: 250%;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+#commit-popup {
+    position: fixed;
+    bottom: 0px;
+    z-index: 5;
+    transition: 250ms cubic-bezier(1, -0.5, 1, 1);
+}
+
+#commit-popup.show {
+    bottom: 80px;
+    transition: 250ms cubic-bezier(0, 1.5, 1, 1);
+}
+
+#commit-popup .container {
+    background-color: #111;
+    border-radius: 5px;
+    font-size: 120%;
+    padding: 0.5em 1em;
+    position: fixed;
+}
+
+.back-drop {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #00000088;
+    z-index: 10;
+    transition: 200ms ease-in-out;
+}
+
+.back-drop.closed {
+    opacity: 0%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.ddl-modal {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--darkest);
+    z-index: 20;
+    border-radius: 5px;
+    transition: 200ms ease-in-out;
+}
+
+.ddl-modal.closed {
+    transform: scale(75%) translateY(-20%);
+    z-index: -1;
+    opacity: 0%;
+    pointer-events: none;
+}
+
+@media screen and (min-width: 1500px) {
+    .ddl-modal {
+        top: 10%;
+        max-height: 80%;
+        left: 25%;
+        right: 25%;
+    }
+}
+
+@media screen and (max-width: 1500px) {
+    .ddl-modal {
+        top: 20%;
+        max-height: 60%;
+        left: 10%;
+        right: 10%;
+    }
+}
+
+.ddl-modal .box {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 5% 10%;
+}
+
+.ddl-modal-footer {
+    float: right;
+    padding: 1% 5%;
+}
+
+.table {
+    display: table;
+}
+
+.table-row {
+    display: table-row;
+}
+
+.table-cell {
+    display: table-cell;
+    padding: 0 0.5em;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.no-select {
+    -webkit-touch-callout: default;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+.r0,
+.r90 {
+    transition: 150ms ease-in-out;
+}
+
+.r90 {
+    rotate: 90deg;
+}
+
+.uncollapsed,
+.collapsed {
+    display: grid;
+    overflow: hidden;
+    transition: 150ms ease-in-out;
+}
+
+.uncollapsed > div,
+.collapsed > div {
+    align-self: end;
+    min-height: 0;
+    transition: 150ms ease-in-out;
+}
+
+.collapsed > div {
+    opacity: 0%;
+}
+
+.uncollapsed {
+    grid-template-rows: 1fr;
+}
+
+.collapsed {
+    grid-template-rows: 0fr;
+}
+
+.monospace {
+    font-family: monospace;
+}
+
+.json {
+    font-family: monospace;
+    background-color: var(--dark);
+    outline: none;
+    border: none;
+}
+
+.chip {
+    border-radius: 2px !important;
+}
+
+.chip img {
+    border-radius: 2px !important;
+}
+
+hr {
+    border: 1px solid #009688aa;
+}
+
+input[type="number"] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    -ms-appearance: textfield;
+    appearance: textfield;
+}
+
+.drawer {
+    cursor: default;
+}

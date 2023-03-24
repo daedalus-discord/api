@@ -1,0 +1,153 @@
+- method: GET
+  name: History (by user)
+  route: /moderation/history/:gid/user/:uid
+  key: moderation:history:get
+  schema: GET_history
+  description: Get a user's history. Up to 100 results are shown at once. Use <code class="blue-text">?page=#</code> to fetch another page.
+  response: |
+      {
+          items: [
+              {
+                  guild: string, // the server ID
+                  user: string, // the user ID
+                  id: number, // the history entry ID (unique per server)
+                  type: "informal_warn" | "warn" | "timeout" | "mute" | "kick" | "ban", // the punishment type
+                  mod: string | number, // the executor's user ID, or if created by an application without override, the internal ID of the API token
+                  time: Date, // the creation date of this entry
+                  duration: number | null, // duration in milliseconds; positive and up to 28 days for timeout, positive for mute and ban, and undefined behavior otherwise
+                  origin: string | null, // origin of this entry; should be a Discord message URL but can be anything in theory
+                  reason: string | null, // the reason provided
+              }
+          ],
+          count: number, // the total number of entries in the user's history
+          more: boolean, // whether or not there are more pages after the current one
+      }
+- method: GET
+  name: History (by ID)
+  route: /moderation/history/:gid/id/:id(^[1-9][0-9]*$)
+  key: moderation:history:get
+  description: Get a history entry by ID.
+  response: |
+      {
+          guild: string, // the server ID
+          user: string, // the user ID
+          id: number, // the history entry ID (unique per server)
+          type: "informal_warn" | "warn" | "timeout" | "mute" | "kick" | "ban", // the punishment type
+          mod: string | number, // the executor's user ID, or if created by an application without override, the internal ID of the API token
+          time: Date, // the creation date of this entry
+          duration: number | null, // duration in milliseconds; positive and up to 28 days for timeout, positive for mute and ban, and undefined behavior otherwise
+          origin: string | null, // origin of this entry; should be a Discord message URL but can be anything in theory
+          reason: string | null, // the reason provided
+      }
+  errors:
+      - code: 404
+        key: No history entry with that ID.
+        cause: That ID does not correspond to a history entry, or it was deleted.
+- method: POST
+  name: History
+  route: /moderation/history/:gid/user/:uid
+  key: moderation:history:append
+  schema: POST_history
+  description: Append a history entry to a user. If the <code class="purple-text text-lighten-2">moderation:history:append:id</code> scope is missing, the <code>mod</code> field is ignored.
+  response: |
+      {
+          guild: string, // the server ID
+          user: string, // the user ID
+          id: number, // the history entry ID (unique per server)
+          type: "informal_warn" | "warn" | "timeout" | "mute" | "kick" | "ban", // the punishment type
+          mod: string | number, // the executor's user ID, or if created by an application without override, the internal ID of the API token
+          time: Date, // the creation date of this entry
+          duration: number | null, // duration in milliseconds; positive and up to 28 days for timeout, positive for mute and ban, and undefined behavior otherwise
+          origin: string | null, // origin of this entry; should be a Discord message URL but can be anything in theory
+          reason: string | null, // the reason provided
+      }
+  errors:
+      - code: 500
+        key: Could not insert entry.
+        cause: An unknown server-side error occurred.
+- method: DELETE
+  name: History
+  route: /moderation/history/:gid/id/:id(^[1-9][0-9]*$)
+  key: moderation:history:delete
+  description: Delete a history entry by ID.
+  response: |
+      {
+          guild: string, // the server ID
+          user: string, // the user ID
+          id: number, // the history entry ID (unique per server)
+          type: "informal_warn" | "warn" | "timeout" | "mute" | "kick" | "ban", // the punishment type
+          mod: string | number, // the executor's user ID, or if created by an application without override, the internal ID of the API token
+          time: Date, // the creation date of this entry
+          duration: number | null, // duration in milliseconds; positive and up to 28 days for timeout, positive for mute and ban, and undefined behavior otherwise
+          origin: string | null, // origin of this entry; should be a Discord message URL but can be anything in theory
+          reason: string | null, // the reason provided
+      }
+  errors:
+      - code: 404
+        key: No history entry with that ID.
+        cause: That ID does not correspond to a history entry, or it was deleted.
+- method: GET
+  name: XP (by user)
+  route: /xp/:gid/user/:uid
+  key: xp:get
+  description: Get a user's XP.
+  response: |
+      {
+          daily: { // XP gained since the last daily reset (UTC midnight)
+              text: number,
+              voice: number,
+          },
+          weekly: { // XP gained since the last weekly reset (Sunday)
+              text: number,
+              voice: number,
+          },
+          monthly: { // XP gained since the last monthly reset (1st day monthly)
+              text: number,
+              voice: number,
+          },
+          total: {
+              text: number,
+              voice: number,
+          },
+      }
+- method: GET
+  name: XP (leaderboard)
+  route: /xp/:gid/leaderboard
+  key: xp:get
+  schema: GET_xp_leaderboard
+  description: Get the server's leaderboard. Up to 100 results are shown at once. Use <code class="blue-text">?page=#</code> to fetch another page. Use the <code class="blue-text">sort</code> query parameter to sort by text or voice and by daily, weekly, monthly, or total XP. Prefix with <code class="blue-text">-</code> to sort ascending (by default, sorts descending).
+  response: |
+      {
+          items: [
+                {
+                  daily: { // XP gained since the last daily reset (UTC midnight)
+                      text: number,
+                      voice: number,
+                  },
+                  weekly: { // XP gained since the last weekly reset (Sunday)
+                      text: number,
+                      voice: number,
+                  },
+                  monthly: { // XP gained since the last monthly reset (1st day monthly)
+                      text: number,
+                      voice: number,
+                  },
+                  total: {
+                      text: number,
+                      voice: number,
+                  },
+              }
+          ],
+          count: number, // the total number of users on the leaderboard
+          more: boolean, // whether or not there are more pages after the current one
+      }
+- method: PATCH
+  name: XP (bulk update)
+  route: /xp/:gid
+  key: xp:write
+  schema: PATCH_xp
+  description: Update user XP. The input is an array of actions to take. The daily, weekly, and monthly values are automatically adjusted; this endpoint can only set the total, absolutely or relatively.
+  response: |
+      {
+          acknowledged: "true",
+      }

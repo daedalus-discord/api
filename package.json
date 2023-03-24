@@ -1,0 +1,17 @@
+{
+    "type": "module",
+    "scripts": {
+        "start": "node src/index.js"
+    },
+    "dependencies": {
+        "@fastify/static": "^6.9.0",
+        "@fastify/view": "^7.4.1",
+        "dotenv": "^16.0.3",
+        "fastify": "^4.15.0",
+        "file-ez": "^1.0.1",
+        "fs": "^0.0.1-security",
+        "mongodb": "^5.1.0",
+        "pug": "^3.0.2",
+        "yaml": "^2.2.1"
+    }
+}

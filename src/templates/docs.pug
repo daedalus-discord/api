@@ -1,0 +1,57 @@
+extends layout
+
+block header
+    b Daedalus
+    |  API Documentation
+    .subtext!= version_name
+    .subtext: a(href="/") Return Home
+
+block dependencies
+    script(src="/static/scripts/api-index.js", defer)
+
+block main
+    .row
+        .col.s12
+            h5 Error Format
+            pre!= "{\n    error: {\n        statusCode: number,\n        message: string\n    }\n}"
+            p The response will have the same status code as <code>$error.statusCode</code>.
+            p If you are missing the scope or the API token is invalid, you will get one of the following responses:
+            ul.browser-default
+                li: p <b>401: "Missing auth."</b> - no <code>Authorization</code> header.
+                li: p <b>401: "Invalid auth: should be a bearer token."</b> - <code>Authorization</code> header did not start with <code>Bearer</code>.
+                li: p <b>401: "Invalid auth: token is invalid."</b> - the provided API token does not exist or was deleted.
+                li: p <b>403: "Invalid auth: token belongs to another guild."</b> - the provided API token is valid but belongs to a guild different from the requested resource.
+                li: p <b>403: "Invalid auth: missing scope {key}"</b> - the provided API token is valid and belongs to the right guild, but does not have the required scope for the requested resource.
+    .row
+        .col.s12
+            for item of data
+                h5
+                    span.grey-text.text-darken-1.monospace #{item.method}!{"&nbsp;".repeat(6 - item.method.length)}
+                    |  #{item.name}
+                .monospace.blue-text= item.route
+                if item.key
+                    div
+                        b Requires: 
+                        span.monospace.purple-text.text-lighten-2= item.key
+                p!= item.description
+                if item.schema
+                    div
+                        b.drawer.closed.no-select
+                            i.left.material-icons chevron_right
+                            | Schema
+                        pre.hidden!= JSON.stringify(schemas[item.schema], undefined, 4)
+                br
+                div
+                    b.drawer.closed.no-select
+                        i.left.material-icons chevron_right
+                        | Response Format
+                    pre.hidden!= item.response
+                if item.errors
+                    br
+                    div
+                        b.drawer.closed.no-select
+                            i.left.material-icons chevron_right
+                            | Errors
+                        pre.hidden!= item.errors.map(({ code, key, cause }) => `${code}: ${key} - ${cause}`).join("\n")
+                br
+                br

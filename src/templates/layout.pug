@@ -1,0 +1,56 @@
+include mixins
+
+doctype html
+html.overflow
+    head
+        meta(charset="utf-8")
+        meta(name="description", content="Daedalus | API Documentation")
+        meta(name="keywords", content="daedalus, genshin, impact, tcn, teyvat, collective, network, api")
+        meta(name="author", content="hyper-neutrino")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+
+        //- Discord Embed
+        meta(property="og:title", content="Daedalus | API Documentation")
+        meta(property="og:description", content="Daedalus is a highly customizable and powerful modular discord bot supporting a variety of core tools, as well as many extra features to help you improve your server's environment. Daedalus has a focus on transparency and giving you full control over how the bot operates in your server.\n\nThis is the API documentation page.")
+        meta(property="og:url", content=config.DOMAIN)
+        meta(property="og:url", content=`${config.DOMAIN}/static/icon.png`)
+        meta(name="theme-color", data-react-helmet="true", content="#009688")
+
+        //- Favicon
+        link(rel="shortcut icon", type="image/png", href="/static/icon.png" + version)
+
+        //- CSS
+        +importCSS("/static/styles/stylesheet.css" + version)
+
+        //- External Styling
+        +importCSS("https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css")
+        +importCSS("https://fonts.googleapis.com/icon?family=Material+Icons")
+
+        //- JavaScript
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js", defer)
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js", defer)
+
+        //- Extra Dependencies
+        block dependencies
+
+        title= title || "Daedalus API Documentation"
+
+    body.darkest.grey-text.text-lighten-4.overflow
+        main
+            block default
+                .dark.top-block
+                    .container
+                        block header
+                br
+                .container
+                    block main
+                br
+                br
+                br
+                br
+                block extras
+        
+        footer.dark.page-footer
+            .container &copy; hyper-neutrino, 2023
+                br
+                br
