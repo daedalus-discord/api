@@ -1,5 +1,5 @@
 import schemas from "../../schemas.js";
-import { api } from "../../utils.js";
+import { api, autoinc } from "../../utils.js";
 
 export default function (server, _, done) {
     server.get(

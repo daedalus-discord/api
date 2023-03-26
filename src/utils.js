@@ -38,3 +38,8 @@ async function check_token(request, reply, key) {
 export function api(key, fn) {
     return async (request, reply) => (await check_token(request, reply, key)) || fn(request, reply);
 }
+
+export async function autoinc(seq) {
+    const document = await db.counters.findOneAndUpdate({ seq }, { $inc: { val: 1 } }, { upsert: true });
+    return (document.value?.val ?? 0) + 1;
+}
