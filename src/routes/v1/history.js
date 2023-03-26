@@ -1,3 +1,4 @@
+import db from "../../db.js";
 import schemas from "../../schemas.js";
 import { api, autoinc } from "../../utils.js";
 
